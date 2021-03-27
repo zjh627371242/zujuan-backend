@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -40,7 +41,6 @@ public class Question implements Serializable {
     /**
      * 题目类型id
      */
-    @TableField("question_ENGINE_id")
     private Long questionEngineId;
 
     /**
@@ -56,20 +56,22 @@ public class Question implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     /**
      * 题目类型信息
      */
+    @TableField(exist = false)
     private QuestionEngine questionEngine;
 
     /**
      * 知识点信息
      */
+    @TableField(exist = false)
     private Knowledge knowledge;
 }

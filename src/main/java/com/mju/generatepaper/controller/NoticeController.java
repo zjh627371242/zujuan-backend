@@ -59,6 +59,7 @@ public class NoticeController {
     @ResponseBody
     public Result add(@RequestBody Notice notice){
         notice.setCreateTime(new Date());
+        notice.setUpdateTime(new Date());
         if (iNoticeService.save(notice)){
             return ResultFactory.success("新增成功");
         }
@@ -71,6 +72,7 @@ public class NoticeController {
     @PostMapping(value = "/edit")
     @ResponseBody
     public Result edit(@RequestBody Notice notice){
+        notice.setUpdateTime(new Date());
         if (iNoticeService.updateById(notice)){
             return ResultFactory.success("修改成功");
         }

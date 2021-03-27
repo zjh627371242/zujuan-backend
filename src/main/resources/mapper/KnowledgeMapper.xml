@@ -24,8 +24,8 @@
             knowledge k
             LEFT JOIN `subject` s ON k.subject_id = s.id
         where 1 = 1
-        <if test="queryfilter.name!=null and queryfilter.name!=''">
-            and k.point like concat('%',#{queryfilter.name},'%')
+        <if test="queryfilter.point!=null and queryfilter.point!=''">
+            and k.point like concat('%',#{queryfilter.point},'%')
         </if>    
     </select>
 </mapper>

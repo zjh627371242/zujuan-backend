@@ -34,7 +34,7 @@ public class UserController {
         queryWrapper.eq("password",user.getPassword());
         User one = iUserService.getOne(queryWrapper);
         if (one!=null){
-            return ResultFactory.success("登录成功",null);
+            return ResultFactory.success("登录成功",one);
         }
         return ResultFactory.failed("账号或密码不正确",null);
     }
@@ -44,6 +44,7 @@ public class UserController {
     @PostMapping("/detail")
     public Result<User> detail(@RequestBody User user){
         user = iUserService.getById(user.getId());
+        user.setPassword(null);
         return ResultFactory.success(user);
     }
 

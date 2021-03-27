@@ -41,8 +41,8 @@ public class KnowledgeController {
     /**
      * 保存知识点信息
      **/
-    @PostMapping("/save")
-    public Result<Subject> save(@RequestBody Knowledge knowledge){
+    @PostMapping("/add")
+    public Result<Subject> add(@RequestBody Knowledge knowledge){
         //保存知识点信息
         boolean result = iKnowledgeService.save(knowledge);
         //如果是True返回成功
@@ -78,8 +78,8 @@ public class KnowledgeController {
     /**
      * 修改知识点
      **/
-    @PostMapping("/update")
-    public Result<Subject> update(@RequestBody Knowledge knowledge){
+    @PostMapping("/edit")
+    public Result<Subject> edit(@RequestBody Knowledge knowledge){
         //根据知识点id 修改知识点信息
         boolean result = iKnowledgeService.updateById(knowledge);
         //如果是True返回成功
