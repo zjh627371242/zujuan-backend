@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         //response为HttpServletResponse对象
         response.setContentType("application/vnd.ms-excel;charset=utf-8");
         //test.xls是弹出下载对话框的文件名，不能为中文，中文请自行编码
-        response.setHeader("Content-Disposition","attachment;filename=题库试题.xls");
+        response.setHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode("题库试题", "UTF-8")+".xls");
         ServletOutputStream out=response.getOutputStream();
         writer.flush(out, true);
         // 关闭writer，释放内存
