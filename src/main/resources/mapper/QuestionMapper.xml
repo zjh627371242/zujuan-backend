@@ -45,4 +45,19 @@
             and q.content like concat('%',#{queryfilter.name},'%')
         </if>
     </select>
+    <select id="getListBySubjectId" resultMap="questionResultMap">
+        SELECT
+            q.content,
+            k.point,
+            s.title
+        FROM
+            question q
+            LEFT JOIN knowledge k ON q.knowledge_id = k.id
+            LEFT JOIN `subject` s ON k.subject_id = s.id
+        WHERE
+            1 = 1
+        <if test="id!=null and id!=''">
+            and s.id = #{id}
+        </if>
+    </select>
 </mapper>

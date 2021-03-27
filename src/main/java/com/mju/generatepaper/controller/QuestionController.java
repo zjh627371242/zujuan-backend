@@ -117,4 +117,15 @@ public class QuestionController {
         //查询试题列表
         return ResultFactory.success(iQuestionService.getList(map));
     }
+
+    /**
+     * 打印题库
+     **/
+    @PostMapping("/excel")
+    public Result<String> excel(@RequestBody Subject subject){
+        if (subject.getId() == null){
+            return ResultFactory.success(iQuestionService.excel(null));
+        }
+        return ResultFactory.success(iQuestionService.excel(subject.getId()));
+    }
 }

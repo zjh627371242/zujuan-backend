@@ -13,5 +13,13 @@ import java.util.Map;
  */
 public interface IQuestionService extends IService<Question> {
 
+    /**
+     * 分页显示试题
+     **/
     IPage<Question> getList(Map map);
+
+    /**
+     * 打印题库
+     **/
+    String excel(Long id);
 }

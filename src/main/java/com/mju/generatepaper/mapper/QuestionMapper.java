@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,5 +20,13 @@ import java.util.Map;
 @Repository
 public interface QuestionMapper extends BaseMapper<Question> {
 
+    /**
+     * 分页显示试题
+     **/
     IPage<Question> getList(@Param("pageParams") PageParams pageParams, @Param("queryfilter") Map<String, Object> queryfilter);
+
+    /**
+     * //根据科目id 查询试题列表
+     **/
+    List<Question> getListBySubjectId(@Param("id") Long id);
 }

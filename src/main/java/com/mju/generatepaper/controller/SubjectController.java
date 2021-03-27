@@ -99,4 +99,13 @@ public class SubjectController {
         //查询科目列表
         return iSubjectService.listSubject(map);
     }
+
+    /**
+     * 查询科目列表
+     **/
+    @PostMapping("/all")
+    public Result<List<Subject>> All(){
+        //查询科目列表
+        return ResultFactory.success(iSubjectService.list());
+    }
 }
