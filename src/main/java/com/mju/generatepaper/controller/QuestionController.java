@@ -8,11 +8,9 @@ import com.mju.generatepaper.common.Result;
 import com.mju.generatepaper.common.ResultFactory;
 import com.mju.generatepaper.entity.*;
 import com.mju.generatepaper.service.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -135,11 +133,9 @@ public class QuestionController {
     /**
      * 打印题库
      **/
-    @PostMapping("/excel")
-    public void excel(@RequestBody Subject subject, HttpServletResponse httpServletRespons) throws IOException {
-        if (subject.getId() == null){
-            iQuestionService.excel(null,httpServletRespons);
-        }
-        iQuestionService.excel(subject.getId(),httpServletRespons);
+    @GetMapping("/excel")
+    public void excel(HttpServletResponse httpServletRespons) throws IOException {
+
+        iQuestionService.excel(null,httpServletRespons);
     }
 }
