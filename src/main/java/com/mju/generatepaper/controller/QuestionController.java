@@ -7,10 +7,7 @@ import com.mju.generatepaper.common.PageParams;
 import com.mju.generatepaper.common.Result;
 import com.mju.generatepaper.common.ResultFactory;
 import com.mju.generatepaper.entity.*;
-import com.mju.generatepaper.service.IKnowledgeService;
-import com.mju.generatepaper.service.IPapermxService;
-import com.mju.generatepaper.service.IQuestionEngineService;
-import com.mju.generatepaper.service.IQuestionService;
+import com.mju.generatepaper.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,11 +40,14 @@ public class QuestionController {
     @Autowired
     private IKnowledgeService iKnowledgeService;
 
+    @Autowired
+    private IDictionaryService iDictionaryService;
+
     /**
      * 保存试题信息
      **/
-    @PostMapping("/save")
-    public Result<Subject> save(@RequestBody Question question){
+    @PostMapping("/add")
+    public Result<Subject> add(@RequestBody Question question){
         //保存试题信息
         boolean result = iQuestionService.save(question);
         //如果是True返回成功
@@ -83,8 +83,8 @@ public class QuestionController {
     /**
      * 修改试题
      **/
-    @PostMapping("/update")
-    public Result<Subject> update(@RequestBody Question question){
+    @PostMapping("/edit")
+    public Result<Subject> edit(@RequestBody Question question){
         //根据试题id 修改试题信息
         boolean result = iQuestionService.updateById(question);
         //如果是True返回成功
@@ -116,8 +116,20 @@ public class QuestionController {
      **/
     @PostMapping("/list")
     public Result<IPage<Question>> list(@RequestBody Map map){
+        QueryWrapper<Dictionary> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dic_code","ND");
+        List<Dictionary> dictionaries = iDictionaryService.list(queryWrapper);
         //查询试题列表
-        return ResultFactory.success(iQuestionService.getList(map));
+        IPage<Question> list = iQuestionService.getList(map);
+        List<Question> records = list.getRecords();
+        for (Question record : records) {
+            for(int i=0;i<dictionaries.size();i++){
+                if ((record.getLevel()+"").equals(dictionaries.get(i).getDicKey()+"")){
+                    record.setLevelName(dictionaries.get(i).getDicName());
+                }
+            }
+        }
+        return ResultFactory.success(list);
     }
 
     /**

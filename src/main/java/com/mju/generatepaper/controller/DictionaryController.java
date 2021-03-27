@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,5 +83,17 @@ public class DictionaryController {
             return ResultFactory.success("删除成功");
         }
         return ResultFactory.failed("删除失败",null);
+    }
+    /**
+     * 根据编码查询字典
+     */
+    @ApiOperation(value = "根据编码查询字典", notes = "根据编码查询字典")
+    @PostMapping(value = "/getByCode")
+    @ResponseBody
+    public Result getByCode(@RequestBody Dictionary dictionary){
+        QueryWrapper<Dictionary> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dic_code",dictionary.getDicCode());
+        List<Dictionary> list = iDictionaryService.list(queryWrapper);
+        return ResultFactory.success("查询成功",list);
     }
 }

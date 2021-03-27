@@ -38,8 +38,8 @@ public class QuestionEngineController {
     /**
      * 保存题型信息
      **/
-    @PostMapping("/save")
-    public Result<Subject> save(@RequestBody QuestionEngine questionEngine){
+    @PostMapping("/add")
+    public Result add(@RequestBody QuestionEngine questionEngine){
         //保存题型信息
         boolean result = iQuestionEngineService.save(questionEngine);
         //如果是True返回成功
@@ -54,7 +54,7 @@ public class QuestionEngineController {
      * 删除题型
      **/
     @PostMapping("/delete")
-    public Result<Subject> delete(@RequestBody QuestionEngine questionEngine){
+    public Result delete(@RequestBody QuestionEngine questionEngine){
         //判断知识点是否被试题引用
         QueryWrapper<Question> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("question_ENGINE_id",questionEngine.getId());
@@ -75,8 +75,8 @@ public class QuestionEngineController {
     /**
      * 修改题型
      **/
-    @PostMapping("/update")
-    public Result<Subject> update(@RequestBody QuestionEngine questionEngine){
+    @PostMapping("/edit")
+    public Result edit(@RequestBody QuestionEngine questionEngine){
         //根据题型id 修改题型信息
         boolean result = iQuestionEngineService.updateById(questionEngine);
         //如果是True返回成功
@@ -104,8 +104,8 @@ public class QuestionEngineController {
     public Result<IPage<QuestionEngine>> list(@RequestBody Map map){
         //查询题型列表
         QueryWrapper<QuestionEngine> queryWrapper=new QueryWrapper();
-        if (map.get("name")!=null && map.get("name")!=""){
-            queryWrapper.like("name",map.get("name")+"");
+        if (map.get("typeName")!=null && map.get("typeName")!=""){
+            queryWrapper.like("type_name",map.get("typeName")+"");
         }
         PageParams pageParams=new PageParams(map);
         return ResultFactory.success(iQuestionEngineService.page(pageParams,queryWrapper));

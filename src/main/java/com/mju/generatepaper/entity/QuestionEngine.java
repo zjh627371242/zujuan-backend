@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -34,12 +35,12 @@ public class QuestionEngine implements Serializable {
     /**
      * 试题类型名称
      */
-    private String name;
+    private String typeName;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
 
 }

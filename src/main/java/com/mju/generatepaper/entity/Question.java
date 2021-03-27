@@ -47,7 +47,11 @@ public class Question implements Serializable {
      * 难度等级
      */
     private Long level;
-
+    /**
+     * 难度等级
+     */
+    @TableField(exist = false)
+    private String levelName;
     /**
      * 知识点
      */

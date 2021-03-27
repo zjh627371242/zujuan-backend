@@ -1,6 +1,8 @@
 package com.mju.generatepaper.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +28,7 @@ public class Knowledge implements Serializable {
     /**
      * 主键id
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**

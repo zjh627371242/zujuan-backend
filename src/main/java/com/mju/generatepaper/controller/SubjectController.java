@@ -108,7 +108,7 @@ public class SubjectController {
      * 查询科目列表
      **/
     @PostMapping("/all")
-    public Result<List<Subject>> All(){
+    public Result<List<Subject>> all(){
         //查询科目列表
         return ResultFactory.success(iSubjectService.list());
     }
