@@ -24,13 +24,26 @@ public class UserController {
 
     @Autowired
     private IUserService iUserService;
-
+    /**
+     * 用户登录
+     **/
+    @PostMapping("/login")
+    public Result<User> login(@RequestBody User user){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",user.getUsername());
+        queryWrapper.eq("password",user.getPassword());
+        User one = iUserService.getOne(queryWrapper);
+        if (one!=null){
+            return ResultFactory.success("登录成功",null);
+        }
+        return ResultFactory.failed("账号或密码不正确",null);
+    }
     /**
      * 获取用户详情
      **/
     @PostMapping("/detail")
-    public Result<User> detail(Long id){
-        User user = iUserService.getById(id);
+    public Result<User> detail(@RequestBody User user){
+        user = iUserService.getById(user.getId());
         return ResultFactory.success(user);
     }
 
@@ -52,8 +65,15 @@ public class UserController {
      * 新增用户
      */
     @ResponseBody
+    @PostMapping(value = "/add")
     public Result add(@RequestBody User user){
         user.setPassword("123456");
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",user.getUsername());
+        User one = iUserService.getOne(queryWrapper);
+        if (one!=null){
+            return ResultFactory.failed("新增失败，改账号已存在",null);
+        }
         if (iUserService.save(user)){
             return ResultFactory.success("新增成功");
         }
@@ -66,6 +86,13 @@ public class UserController {
     @PostMapping(value = "/edit")
     @ResponseBody
     public Result edit(@RequestBody User user){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",user.getUsername());
+        User newUser = iUserService.getOne(queryWrapper);
+        User oldUser = iUserService.getById(user.getId());
+        if (newUser!=null && !newUser.getUsername().equals(oldUser.getUsername())){
+            return ResultFactory.failed("修改失败,改账号名已存在",null);
+        }
         if (iUserService.updateById(user)){
             return ResultFactory.success("修改成功");
         }

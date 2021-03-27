@@ -1,10 +1,12 @@
 package com.mju.generatepaper.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mju.generatepaper.common.PageParams;
 import com.mju.generatepaper.common.Result;
 import com.mju.generatepaper.common.ResultFactory;
 import com.mju.generatepaper.entity.Dictionary;
+import com.mju.generatepaper.entity.User;
 import com.mju.generatepaper.service.IDictionaryService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +40,12 @@ public class DictionaryController {
     @PostMapping(value = "/list")
     @ResponseBody
     public Result<IPage<Dictionary>> list(@RequestBody Map map){
+        QueryWrapper<Dictionary> queryWrapper=new QueryWrapper();
+        if (map.get("dicCode")!=null && map.get("dicCode")!=""){
+            queryWrapper.like("dic_code",map.get("dicCode")+"");
+        }
         PageParams pageParams=new PageParams(map);
-        return ResultFactory.success(iDictionaryService.page(pageParams));
+        return ResultFactory.success(iDictionaryService.page(pageParams,queryWrapper));
     }
     /**
      * 新增字典

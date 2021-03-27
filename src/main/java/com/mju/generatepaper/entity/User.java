@@ -42,14 +42,14 @@ public class User implements Serializable {
     private String password;
 
     /**
-     * 描述
+     * 电话
      */
-    private String description;
+    private String telephone;
 
     /**
      * 级别
      */
-    private Integer level;
+    private String level;
 
     /**
      * 用户名

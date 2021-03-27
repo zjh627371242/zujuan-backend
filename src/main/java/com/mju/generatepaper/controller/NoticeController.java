@@ -1,16 +1,19 @@
 package com.mju.generatepaper.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mju.generatepaper.common.PageParams;
 import com.mju.generatepaper.common.Result;
 import com.mju.generatepaper.common.ResultFactory;
+import com.mju.generatepaper.entity.Dictionary;
 import com.mju.generatepaper.entity.Notice;
 import com.mju.generatepaper.service.INoticeService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -41,8 +44,12 @@ public class NoticeController {
     @PostMapping(value = "/list")
     @ResponseBody
     public Result<IPage<Notice>> list(@RequestBody Map map){
+        QueryWrapper<Notice> queryWrapper=new QueryWrapper();
+        if (map.get("title")!=null && map.get("title")!=""){
+            queryWrapper.like("title",map.get("title")+"");
+        }
         PageParams pageParams=new PageParams(map);
-        return ResultFactory.success(iNoticeService.page(pageParams));
+        return ResultFactory.success(iNoticeService.page(pageParams,queryWrapper));
     }
     /**
      * 新增公告
@@ -51,6 +58,7 @@ public class NoticeController {
     @PostMapping(value = "/add")
     @ResponseBody
     public Result add(@RequestBody Notice notice){
+        notice.setCreateTime(new Date());
         if (iNoticeService.save(notice)){
             return ResultFactory.success("新增成功");
         }

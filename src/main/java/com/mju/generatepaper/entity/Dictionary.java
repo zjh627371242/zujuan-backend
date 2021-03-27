@@ -33,17 +33,17 @@ public class Dictionary implements Serializable {
     /**
      * 编码
      */
-    private String code;
+    private String dicCode;
 
     /**
      * key
      */
-    private Integer key;
+    private Integer dicKey;
 
     /**
      * 名称
      */
-    private String name;
+    private String dicName;
 
     /**
      * 标记
