@@ -52,6 +52,11 @@ public class User implements Serializable {
     private Integer level;
 
     /**
+     * 用户名
+     */
+    private String nickname;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;
