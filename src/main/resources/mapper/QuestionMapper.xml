@@ -45,7 +45,7 @@
             and q.content like concat('%',#{queryfilter.name},'%')
         </if>
     </select>
-    <select id="getListBySubjectId" resultMap="questionResultMap">
+    <select id="getListBySubjectId" resultType="com.mju.generatepaper.entity.QuestionExcel">
         SELECT
             q.content,
             k.point,

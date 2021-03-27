@@ -92,11 +92,11 @@ public class SubjectController {
     }
 
     /**
-     * 查询科目列表
+     * 查询科目列表 分页查询
      **/
     @PostMapping("/list")
     public Result<IPage<Subject>> list(@RequestBody Map map){
-        //查询科目列表
+        //查询科目列表 分页查询
         return iSubjectService.listSubject(map);
     }
 

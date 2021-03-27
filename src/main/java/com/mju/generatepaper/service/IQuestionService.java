@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mju.generatepaper.entity.Question;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -21,5 +23,5 @@ public interface IQuestionService extends IService<Question> {
     /**
      * 打印题库
      **/
-    String excel(Long id);
+    void excel(Long id, HttpServletResponse httpServletRespons) throws IOException;
 }

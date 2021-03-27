@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mju.generatepaper.common.PageParams;
 import com.mju.generatepaper.entity.Question;
+import com.mju.generatepaper.entity.QuestionExcel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -28,5 +29,5 @@ public interface QuestionMapper extends BaseMapper<Question> {
     /**
      * //根据科目id 查询试题列表
      **/
-    List<Question> getListBySubjectId(@Param("id") Long id);
+    List<QuestionExcel> getListBySubjectId(@Param("id") Long id);
 }

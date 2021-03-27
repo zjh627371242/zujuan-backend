@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -122,10 +124,10 @@ public class QuestionController {
      * 打印题库
      **/
     @PostMapping("/excel")
-    public Result<String> excel(@RequestBody Subject subject){
+    public void excel(@RequestBody Subject subject, HttpServletResponse httpServletRespons) throws IOException {
         if (subject.getId() == null){
-            return ResultFactory.success(iQuestionService.excel(null));
+            iQuestionService.excel(null,httpServletRespons);
         }
-        return ResultFactory.success(iQuestionService.excel(subject.getId()));
+        iQuestionService.excel(subject.getId(),httpServletRespons);
     }
 }

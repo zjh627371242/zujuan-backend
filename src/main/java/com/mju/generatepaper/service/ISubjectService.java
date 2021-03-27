@@ -13,6 +13,8 @@ import java.util.Map;
  * </p>
  */
 public interface ISubjectService extends IService<Subject> {
-
+    /**
+     * 查询科目列表 分页查询
+     **/
     Result<IPage<Subject>> listSubject(Map map);
 }
