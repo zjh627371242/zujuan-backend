@@ -13,7 +13,7 @@
 
     <resultMap id="questionEngineResult" type="com.mju.generatepaper.entity.QuestionEngine">
         <id column="question_ENGINE_id" property="id"/>
-        <result column="qename" property="name"/>
+        <result column="qename" property="typeName"/>
     </resultMap>
 
     <resultMap id="knowledgeResultMap" type="com.mju.generatepaper.entity.Knowledge">
@@ -31,7 +31,7 @@
     <select id="getList" resultMap="questionResultMap">
         SELECT
             q.*,
-            qe.`name` AS qename,
+            qe.type_name AS qename,
             k.point,
             k.subject_id,
             s.title 
@@ -41,8 +41,8 @@
             LEFT JOIN knowledge k ON q.knowledge_id = k.id
             LEFT JOIN `subject` s ON k.subject_id = s.id
         where 1 = 1
-        <if test="queryfilter.name!=null and queryfilter.name!=''">
-            and q.content like concat('%',#{queryfilter.name},'%')
+        <if test="queryfilter.point!=null and queryfilter.point!=''">
+            and k.point like concat('%',#{queryfilter.point},'%')
         </if>
     </select>
     <select id="getListBySubjectId" resultType="com.mju.generatepaper.entity.QuestionExcel">

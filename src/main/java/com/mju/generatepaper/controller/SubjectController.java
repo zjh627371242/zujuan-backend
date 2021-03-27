@@ -12,6 +12,7 @@ import com.mju.generatepaper.service.ISubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +33,10 @@ public class SubjectController {
     /**
      * 保存科目信息
      **/
-    @PostMapping("/save")
-    public Result<Subject> save(@RequestBody Subject subject){
+    @PostMapping("/add")
+    public Result<Subject> add(@RequestBody Subject subject){
+        subject.setCreateTime(new Date());
+        subject.setUpdateTime(new Date());
         //保存科目信息
         boolean result = iSubjectService.save(subject);
         //如果是True返回成功
@@ -69,8 +72,9 @@ public class SubjectController {
     /**
      * 修改科目
      **/
-    @PostMapping("/update")
-    public Result<Subject> update(@RequestBody Subject subject){
+    @PostMapping("/edit")
+    public Result<Subject> edit(@RequestBody Subject subject){
+        subject.setUpdateTime(new Date());
         //根据科目id 修改科目信息
         boolean result = iSubjectService.updateById(subject);
         //如果是True返回成功
@@ -104,7 +108,7 @@ public class SubjectController {
      * 查询科目列表
      **/
     @PostMapping("/all")
-    public Result<List<Subject>> All(){
+    public Result<List<Subject>> all(){
         //查询科目列表
         return ResultFactory.success(iSubjectService.list());
     }

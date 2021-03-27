@@ -3,10 +3,10 @@
 <mapper namespace="com.mju.generatepaper.mapper.SubjectMapper">
 
     <select id="list" resultType="com.mju.generatepaper.entity.Subject">
-        select id,title from subject
+        select id,title,create_time,update_time from subject
         where 1=1
-        <if test="map.name != null and map.name !=''">
-            and title like concat('%',#{map.name},'%')
+        <if test="map.title != null and map.title !=''">
+            and title like concat('%',#{map.title},'%')
         </if>
     </select>
 </mapper>

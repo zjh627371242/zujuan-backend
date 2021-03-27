@@ -1,15 +1,18 @@
 package com.mju.generatepaper.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mju.generatepaper.common.PageParams;
 import com.mju.generatepaper.common.Result;
 import com.mju.generatepaper.common.ResultFactory;
 import com.mju.generatepaper.entity.Dictionary;
+import com.mju.generatepaper.entity.User;
 import com.mju.generatepaper.service.IDictionaryService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,8 +41,12 @@ public class DictionaryController {
     @PostMapping(value = "/list")
     @ResponseBody
     public Result<IPage<Dictionary>> list(@RequestBody Map map){
+        QueryWrapper<Dictionary> queryWrapper=new QueryWrapper();
+        if (map.get("dicCode")!=null && map.get("dicCode")!=""){
+            queryWrapper.like("dic_code",map.get("dicCode")+"");
+        }
         PageParams pageParams=new PageParams(map);
-        return ResultFactory.success(iDictionaryService.page(pageParams));
+        return ResultFactory.success(iDictionaryService.page(pageParams,queryWrapper));
     }
     /**
      * 新增字典
@@ -76,5 +83,17 @@ public class DictionaryController {
             return ResultFactory.success("删除成功");
         }
         return ResultFactory.failed("删除失败",null);
+    }
+    /**
+     * 根据编码查询字典
+     */
+    @ApiOperation(value = "根据编码查询字典", notes = "根据编码查询字典")
+    @PostMapping(value = "/getByCode")
+    @ResponseBody
+    public Result getByCode(@RequestBody Dictionary dictionary){
+        QueryWrapper<Dictionary> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dic_code",dictionary.getDicCode());
+        List<Dictionary> list = iDictionaryService.list(queryWrapper);
+        return ResultFactory.success("查询成功",list);
     }
 }
