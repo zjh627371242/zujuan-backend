@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    username: root #数据库账号
+    password: root #数据库密码
+    url: jdbc:mysql://localhost:3306/generate_paper?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=utf-8 #数据库连接
+    type: com.alibaba.druid.pool.DruidDataSource #连接池
+    driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    mapper-locations: /mapper/*.xml
+    type-aliases-package: com.mju.generatepaper.entity
+server:
+  port: 8082
