@@ -98,7 +98,7 @@ public class QuestionEngineController {
     }
 
     /**
-     * 查询题型列表
+     * 查询题型列表 分页查询
      **/
     @PostMapping("/list")
     public Result<IPage<QuestionEngine>> list(@RequestBody Map map){
@@ -109,5 +109,14 @@ public class QuestionEngineController {
         }
         PageParams pageParams=new PageParams(map);
         return ResultFactory.success(iQuestionEngineService.page(pageParams,queryWrapper));
+    }
+
+    /**
+     * 查询题型列表
+     **/
+    @PostMapping("/all")
+    public Result<List<QuestionEngine>> all(){
+        //查询题型列表
+        return ResultFactory.success(iQuestionEngineService.list());
     }
 }

@@ -104,11 +104,20 @@ public class KnowledgeController {
     }
 
     /**
-     * 查询知识点列表
+     * 查询知识点列表 分页
      **/
     @PostMapping("/list")
     public Result<IPage<Knowledge>> list(@RequestBody Map map){
         //查询知识点列表
         return ResultFactory.success(iKnowledgeService.getList(map));
+    }
+
+    /**
+     * 查询知识点列表
+     **/
+    @PostMapping("/all")
+    public Result<List<Knowledge>> all(){
+        //查询知识点列表
+        return ResultFactory.success(iKnowledgeService.list());
     }
 }
