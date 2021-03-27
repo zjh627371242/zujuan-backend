@@ -49,14 +49,9 @@ public class Question implements Serializable {
     private Long level;
 
     /**
-     * 科目id
-     */
-    private Long subjectId;
-
-    /**
      * 知识点
      */
-    private Long knowledge;
+    private Long knowledgeId;
 
     /**
      * 创建时间
@@ -68,5 +63,13 @@ public class Question implements Serializable {
      */
     private LocalDateTime updateTime;
 
+    /**
+     * 题目类型信息
+     */
+    private QuestionEngine questionEngine;
 
+    /**
+     * 知识点信息
+     */
+    private Knowledge knowledge;
 }

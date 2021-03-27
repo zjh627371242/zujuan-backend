@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mju.generatepaper.mapper.QuestionMapper">
+    <resultMap id="questionResultMap" type="com.mju.generatepaper.entity.Question">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="question_ENGINE_id" property="questionEngineId"/>
+        <result column="level" property="level"/>
+        <result column="knowledge_id" property="knowledgeId"/>
+        <association property="questionEngine" resultMap="questionEngineResult"/>
+        <association property="knowledge" resultMap="knowledgeResultMap"/>
+    </resultMap>
 
+    <resultMap id="questionEngineResult" type="com.mju.generatepaper.entity.QuestionEngine">
+        <id column="question_ENGINE_id" property="id"/>
+        <result column="qename" property="name"/>
+    </resultMap>
+
+    <resultMap id="knowledgeResultMap" type="com.mju.generatepaper.entity.Knowledge">
+        <id column="knowledge_id" property="id" />
+        <result column="point" property="point"/>
+        <result column="subject_id" property="subjectId"/>
+        <association property="subject" resultMap="subjectResultMap"/>
+    </resultMap>
+
+    <resultMap id="subjectResultMap" type="com.mju.generatepaper.entity.Subject">
+        <id column="subject_id" property="id"/>
+        <result column="title" property="title"/>
+    </resultMap>
+    
+    <select id="getList" resultMap="questionResultMap">
+        SELECT
+            q.*,
+            qe.`name` AS qename,
+            k.point,
+            k.subject_id,
+            s.title 
+        FROM
+            question q
+            LEFT JOIN question_engine qe ON q.question_ENGINE_id = qe.id
+            LEFT JOIN knowledge k ON q.knowledge_id = k.id
+            LEFT JOIN `subject` s ON k.subject_id = s.id
+        where 1 = 1
+        <if test="queryfilter.name!=null and queryfilter.name!=''">
+            and q.content like concat('%',#{queryfilter.name},'%')
+        </if>
+    </select>
 </mapper>

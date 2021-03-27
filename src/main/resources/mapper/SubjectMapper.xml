@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mju.generatepaper.mapper.SubjectMapper">
 
+    <select id="list" resultType="com.mju.generatepaper.entity.Subject">
+        select id,title from subject
+        where 1=1
+        <if test="map.name != null and map.name !=''">
+            and title like concat('%',#{map.name},'%')
+        </if>
+    </select>
 </mapper>
