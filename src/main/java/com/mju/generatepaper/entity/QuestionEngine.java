@@ -37,6 +37,11 @@ public class QuestionEngine implements Serializable {
     private String name;
 
     /**
+     * 试题类型分数
+     */
+    private Integer score;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;
