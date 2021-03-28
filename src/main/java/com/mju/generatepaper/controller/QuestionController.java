@@ -134,8 +134,8 @@ public class QuestionController {
      * 打印题库
      **/
     @GetMapping("/excel")
-    public void excel(HttpServletResponse httpServletRespons) throws IOException {
+    public void excel(@Param("title") String title,@Param("point") String point, HttpServletResponse httpServletRespons) throws IOException {
 
-        iQuestionService.excel(null,httpServletRespons);
+        iQuestionService.excel(title,point,httpServletRespons);
     }
 }

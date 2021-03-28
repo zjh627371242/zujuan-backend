@@ -44,8 +44,11 @@
         <if test="queryfilter.point!=null and queryfilter.point!=''">
             and k.point like concat('%',#{queryfilter.point},'%')
         </if>
+        <if test="queryfilter.title!=null and queryfilter.title!=''">
+            and s.title like concat('%',#{queryfilter.title},'%')
+        </if>
     </select>
-    <select id="getListBySubjectId" resultType="com.mju.generatepaper.entity.QuestionExcel">
+    <select id="getExportList" resultType="com.mju.generatepaper.entity.QuestionExcel">
         SELECT
             q.content,
             k.point,
@@ -56,8 +59,11 @@
             LEFT JOIN `subject` s ON k.subject_id = s.id
         WHERE
             1 = 1
-        <if test="id!=null and id!=''">
-            and s.id = #{id}
+        <if test="title!=null and title!='' and title!='undefined'">
+            and s.title like concat('%',#{title},'%')
+        </if>
+        <if test="point!=null and point!='' and point!='undefined'">
+            and k.point like concat('%',#{point},'%')
         </if>
     </select>
 </mapper>

@@ -41,9 +41,9 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public void excel(Long id, HttpServletResponse response) throws IOException {
-        //根据科目id 查询试题列表
-        List<QuestionExcel> rows = questionMapper.getListBySubjectId(id);
+    public void excel(String title,String point, HttpServletResponse response) throws IOException {
+        //根据科目,知识点 查询试题列表
+        List<QuestionExcel> rows = questionMapper.getExportList(title,point);
 
         // 通过工具类创建writer
         ExcelWriter writer = ExcelUtil.getWriter();

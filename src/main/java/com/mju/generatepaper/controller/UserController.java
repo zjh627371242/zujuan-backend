@@ -58,6 +58,13 @@ public class UserController {
         if (map.get("username")!=null && map.get("username")!=""){
             queryWrapper.like("username",map.get("username")+"");
         }
+        //管理员可以查看教师和试题录入人员信息
+        if ((map.get("role")+"").equals("admin")){
+            queryWrapper.in("level","teacher","inputPeople");
+        }else if ((map.get("role")+"").equals("teacher")){
+            queryWrapper.eq("level","inputPeople");
+        }
+        //教师可以查看试卷录入人员信息
         PageParams pageParams=new PageParams(map);
         return ResultFactory.success(iUserService.page(pageParams,queryWrapper));
     }

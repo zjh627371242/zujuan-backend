@@ -23,5 +23,5 @@ public interface IQuestionService extends IService<Question> {
     /**
      * 打印题库
      **/
-    void excel(Long id, HttpServletResponse httpServletRespons) throws IOException;
+    void excel(String title,String point, HttpServletResponse httpServletRespons) throws IOException;
 }

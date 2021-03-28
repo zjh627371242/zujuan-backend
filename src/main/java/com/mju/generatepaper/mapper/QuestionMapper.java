@@ -27,7 +27,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
     IPage<Question> getList(@Param("pageParams") PageParams pageParams, @Param("queryfilter") Map<String, Object> queryfilter);
 
     /**
-     * //根据科目id 查询试题列表
+     * //根据科目,知识点 查询试题列表
      **/
-    List<QuestionExcel> getListBySubjectId(@Param("id") Long id);
+    List<QuestionExcel> getExportList(@Param("title") String title,@Param("point") String point);
 }
