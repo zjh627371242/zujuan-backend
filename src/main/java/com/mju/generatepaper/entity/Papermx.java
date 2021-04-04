@@ -40,5 +40,8 @@ public class Papermx implements Serializable {
      */
     private Long selectedQu;
 
-
+    /**
+     * 选择的题目分数
+     */
+    private Integer score;
 }
