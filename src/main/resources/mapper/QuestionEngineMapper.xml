@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mju.generatepaper.mapper.QuestionEngineMapper">
-
+    <resultMap id="BaseMap" type="com.mju.generatepaper.entity.QuestionEngine">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="type_name" property="typeName"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    <select id="randQuestionEngine">
+        select * from question_engine ORDER BY  RAND() LIMIT #{limit}
+    </select>
 </mapper>
+

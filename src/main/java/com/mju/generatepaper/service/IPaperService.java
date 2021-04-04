@@ -1,6 +1,7 @@
 package com.mju.generatepaper.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mju.generatepaper.common.Result;
 import com.mju.generatepaper.entity.Paper;
 
 /**
@@ -9,5 +10,7 @@ import com.mju.generatepaper.entity.Paper;
  * </p>
  */
 public interface IPaperService extends IService<Paper> {
+
+    Result autoPaper();
 
 }

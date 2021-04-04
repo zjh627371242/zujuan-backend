@@ -30,4 +30,12 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * //根据科目,知识点 查询试题列表
      **/
     List<QuestionExcel> getExportList(@Param("title") String title,@Param("point") String point);
+
+    /**
+     * 随机获取试题
+     * @param questionEngineId
+     * @param limit
+     * @return
+     */
+    List<Question> randQuestion(@Param("questionEngineId") Long questionEngineId,@Param("point") String limit);
 }

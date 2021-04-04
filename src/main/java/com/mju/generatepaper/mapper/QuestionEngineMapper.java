@@ -3,6 +3,9 @@ package com.mju.generatepaper.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mju.generatepaper.entity.QuestionEngine;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -11,5 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface QuestionEngineMapper extends BaseMapper<QuestionEngine> {
-
+    List<QuestionEngine> randQuestionEngine(@Param(value = "limit") int limit);
 }

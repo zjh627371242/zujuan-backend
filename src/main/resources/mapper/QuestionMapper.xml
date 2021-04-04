@@ -66,4 +66,7 @@
             and k.point like concat('%',#{point},'%')
         </if>
     </select>
+    <select id="randQuestion">
+        select * from question where question_engine_id = #{questionEngineId} ORDER BY  RAND() LIMIT #{limit}
+    </select>
 </mapper>
