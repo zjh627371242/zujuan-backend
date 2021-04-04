@@ -12,7 +12,12 @@ import com.mju.generatepaper.service.IPaperService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.*;
 
 /**
@@ -30,7 +35,7 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements
     PaperMapper paperMapper;
     @Autowired
     PapermxMapper papermxMapper;
-    public static List<List<Rule>> list = new ArrayList<>();
+    public static List<List<Rule>> list;
     static {
         Rule rule = new Rule(10,3);
         Rule rule1 = new Rule(20,2);
@@ -79,5 +84,29 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements
            }
        }
         return ResultFactory.success("组卷成功",null);
+    }
+
+    @Override
+    @Transactional
+    public Result manualPaper(ManualPaperParam manualPaperParam) {
+        if (manualPaperParam.getPaperParamItems() == null || manualPaperParam.getPaperParamItems().isEmpty()){
+            throw new RuntimeException("请添加试题类别");
+        }
+        Paper paper = new Paper().setTitle(manualPaperParam.getTitle()).setCreateTime(new Date());
+        //保存试卷
+        paperMapper.insert(paper);
+        for (ManualPaperParamItem paperParamItem : manualPaperParam.getPaperParamItems()) {
+            //随机查询试题
+            List<Question> questionList = questionMapper.randQuestion(paperParamItem.getQuestion_engine_id(), paperParamItem.getCount(),manualPaperParam.getSubject_id());
+            if (questionList == null || questionList.isEmpty()){
+                QuestionEngine questionEngine = questionEngineMapper.selectById(paperParamItem.getQuestion_engine_id());
+                throw new RuntimeException(questionEngine.getTypeName() + "试题集合为空,请去添加试题");
+            }
+            for (Question question : questionList) {
+                //插入试卷试题
+                papermxMapper.insert(new Papermx().setPaperId(paper.getId()).setScore(paperParamItem.getScore()).setSelectedQu(question.getId()));
+            }
+        }
+        return ResultFactory.success("手动组卷成功",null);
     }
 }
