@@ -8,6 +8,7 @@ import com.mju.generatepaper.entity.QuestionEngine;
 import com.mju.generatepaper.entity.Rule;
 import com.mju.generatepaper.mapper.PaperMapper;
 import com.mju.generatepaper.mapper.QuestionEngineMapper;
+import com.mju.generatepaper.mapper.QuestionMapper;
 import com.mju.generatepaper.service.IPaperService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ import java.util.Random;
 public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements IPaperService {
     @Autowired
     QuestionEngineMapper questionEngineMapper;
+    @Autowired
+    QuestionMapper questionMapper;
     public static List<List<Rule>> list;
     static {
         Rule rule = new Rule(10,3);
@@ -56,9 +59,9 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements
         if (CollectionUtils.isEmpty(questionEngines) || questionEngines.size()!=rules.size()){
             return ResultFactory.failed("题型数量不足，请完善题型和对应试题库");
         }
-        for (QuestionEngine questionEngine : questionEngines) {
-
-        }
+       for (int i=0;i<questionEngines.size();i++){
+           questionMapper.randQuestion(questionEngines.get(i).getId(),rules.get(i).getCount());
+       }
         return null;
     }
 }
