@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.mju.generatepaper.common.Result;
 import com.mju.generatepaper.entity.Paper;
 
+import java.util.Map;
+
 /**
  * <p>
  * 试卷表 服务类
@@ -11,6 +13,6 @@ import com.mju.generatepaper.entity.Paper;
  */
 public interface IPaperService extends IService<Paper> {
 
-    Result autoPaper();
+    Result autoPaper(Map map);
 
 }

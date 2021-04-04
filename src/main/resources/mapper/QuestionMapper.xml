@@ -66,7 +66,8 @@
             and k.point like concat('%',#{point},'%')
         </if>
     </select>
-    <select id="randQuestion">
-        select * from question where question_engine_id = #{questionEngineId} ORDER BY  RAND() LIMIT #{limit}
+    <select id="randQuestion" resultType="com.mju.generatepaper.entity.Question">
+        select tb.* from question tb
+        left join knowledge k on k.id = tb.knowledge_id where question_engine_id = #{questionEngineId} and k.subject_id = #{subjectId} ORDER BY  RAND() LIMIT #{limit}
     </select>
 </mapper>
