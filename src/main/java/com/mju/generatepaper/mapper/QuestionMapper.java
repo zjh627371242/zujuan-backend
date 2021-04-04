@@ -37,5 +37,5 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * @param limit
      * @return
      */
-    List<Question> randQuestion(@Param("questionEngineId") Long questionEngineId,@Param("point") int limit);
+    List<Question> randQuestion(@Param("questionEngineId") Long questionEngineId,@Param("limit") int limit);
 }
