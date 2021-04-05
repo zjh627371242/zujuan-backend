@@ -58,6 +58,7 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements
         list.add(list2);
     }
     @Override
+    @Transactional
     public Result autoPaper(Map map) {
         Paper paper = new Paper();
         paper.setTitle(map.get("title")+"");
