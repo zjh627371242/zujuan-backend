@@ -1,6 +1,7 @@
 package com.mju.generatepaper.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -42,5 +44,9 @@ public class Paper implements Serializable {
      */
     private Date createTime;
 
-
+    /**
+     * 试卷试题
+     **/
+    @TableField(exist = false)
+    private List<Papermx> papermxList;
 }

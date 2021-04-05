@@ -103,12 +103,14 @@ public class QuestionEngineController {
     @PostMapping("/list")
     public Result<IPage<QuestionEngine>> list(@RequestBody Map map){
         //查询题型列表
-        QueryWrapper<QuestionEngine> queryWrapper=new QueryWrapper();
-        if (map.get("typeName")!=null && map.get("typeName")!=""){
-            queryWrapper.like("type_name",map.get("typeName")+"");
-        }
         PageParams pageParams=new PageParams(map);
-        return ResultFactory.success(iQuestionEngineService.page(pageParams,queryWrapper));
+        if (map.get("typeName")!=null && map.get("typeName")!=""){
+            QueryWrapper<QuestionEngine> queryWrapper=new QueryWrapper();
+            queryWrapper.like("type_name",map.get("typeName")+"");
+            return ResultFactory.success(iQuestionEngineService.page(pageParams,queryWrapper));
+        }else {
+            return ResultFactory.success(iQuestionEngineService.page(pageParams,null));
+        }
     }
 
     /**

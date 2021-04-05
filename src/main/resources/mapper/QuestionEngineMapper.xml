@@ -7,8 +7,8 @@
         <result column="type_name" property="typeName"/>
         <result column="create_time" property="createTime"/>
     </resultMap>
-    <select id="randQuestionEngine">
-        select * from question_engine ORDER BY  RAND() LIMIT #{limit}
+    <select id="randQuestionEngine" resultType="com.mju.generatepaper.entity.QuestionEngine">
+        select * from question_engine ORDER BY RAND() LIMIT #{limit}
     </select>
 </mapper>
 

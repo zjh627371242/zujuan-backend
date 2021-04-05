@@ -28,7 +28,7 @@ public class ManualPaperParam {
     /**
      * 科目id
      **/
-    private Long subject_id;
+    private Long subjectId;
 
     private List<ManualPaperParamItem> paperParamItems;
 

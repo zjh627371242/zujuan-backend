@@ -1,5 +1,6 @@
 package com.mju.generatepaper.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mju.generatepaper.common.Result;
 import com.mju.generatepaper.common.ResultFactory;
@@ -93,20 +94,62 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements
             throw new RuntimeException("请添加试题类别");
         }
         Paper paper = new Paper().setTitle(manualPaperParam.getTitle()).setCreateTime(new Date());
-        //保存试卷
-        paperMapper.insert(paper);
-        for (ManualPaperParamItem paperParamItem : manualPaperParam.getPaperParamItems()) {
-            //随机查询试题
-            List<Question> questionList = questionMapper.randQuestion(paperParamItem.getQuestion_engine_id(), paperParamItem.getCount(),manualPaperParam.getSubject_id());
-            if (questionList == null || questionList.isEmpty()){
-                QuestionEngine questionEngine = questionEngineMapper.selectById(paperParamItem.getQuestion_engine_id());
-                throw new RuntimeException(questionEngine.getTypeName() + "试题集合为空,请去添加试题");
+        try {
+            //保存试卷
+            paperMapper.insert(paper);
+            for (ManualPaperParamItem paperParamItem : manualPaperParam.getPaperParamItems()) {
+                //随机查询试题
+                List<Question> questionList = questionMapper.randQuestion(paperParamItem.getQuestionEngineId(), paperParamItem.getCount(),manualPaperParam.getSubjectId());
+                if (questionList == null || questionList.size()!=paperParamItem.getCount()){
+                    QuestionEngine questionEngine = questionEngineMapper.selectById(paperParamItem.getQuestionEngineId());
+                    throw new RuntimeException(questionEngine.getTypeName() + "试题集合不足,请去添加试题");
+                }
+                for (Question question : questionList) {
+                    //插入试卷试题
+                    papermxMapper.insert(new Papermx().setPaperId(paper.getId()).setScore(paperParamItem.getScore()).setSelectedQu(question.getId()));
+                }
             }
-            for (Question question : questionList) {
-                //插入试卷试题
-                papermxMapper.insert(new Papermx().setPaperId(paper.getId()).setScore(paperParamItem.getScore()).setSelectedQu(question.getId()));
-            }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("手动组卷失败" + e.getMessage());
         }
         return ResultFactory.success("手动组卷成功",null);
+    }
+
+    @Override
+    public Result deleteById(Map map) {
+        QueryWrapper<Papermx> papermxQueryWrapper = new QueryWrapper<>();
+        papermxQueryWrapper.eq("paper_id",map.get("paperId")+"");
+        try {
+            //根据试卷id 删除试卷试题
+            papermxMapper.delete(papermxQueryWrapper);
+            //根据试卷id 删除试卷
+            paperMapper.deleteById(map.get("paperId")+"");
+        } catch (Exception e) {
+            throw new RuntimeException("删除试卷失败");
+        }
+        return ResultFactory.success("删除试卷成功",null);
+    }
+
+    @Override
+    public Result detail(Map map) {
+        Paper paper = paperMapper.selectById(Long.parseLong(map.get("paperId") + ""));
+        QueryWrapper<Papermx> papermxQueryWrapper = new QueryWrapper<>();
+        papermxQueryWrapper.eq("paper_id",paper.getId());
+        //根据试卷id 查询试卷试题
+        List<Papermx> papermxList = papermxMapper.selectList(papermxQueryWrapper);
+        //遍历试卷试题
+        for (Papermx papermx : papermxList) {
+            //根据试卷试题id 查询试卷试题
+            Question question = questionMapper.selectById(papermx.getSelectedQu());
+            //根据试题查询试题类型
+            QuestionEngine questionEngine = questionEngineMapper.selectById(question.getQuestionEngineId());
+            //设置试卷类型
+            question.setQuestionEngine(questionEngine);
+            //设置试题
+            papermx.setQuestion(question);
+        }
+        //设置试卷试题集合
+        paper.setPapermxList(papermxList);
+        return ResultFactory.success(paper);
     }
 }

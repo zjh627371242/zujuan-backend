@@ -19,7 +19,7 @@ public class ManualPaperParamItem {
     /**
      * 试题类型id
      **/
-    private Long question_engine_id;
+    private Long questionEngineId;
 
     /**
      * 试题数量
