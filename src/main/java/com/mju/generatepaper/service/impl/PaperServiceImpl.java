@@ -35,7 +35,7 @@ public class PaperServiceImpl extends ServiceImpl<PaperMapper, Paper> implements
     PaperMapper paperMapper;
     @Autowired
     PapermxMapper papermxMapper;
-    public static List<List<Rule>> list;
+    public static List<List<Rule>> list = new ArrayList<>();
     static {
         Rule rule = new Rule(10,3);
         Rule rule1 = new Rule(20,2);
